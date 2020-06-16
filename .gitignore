@@ -1,7 +1,7 @@
 .ipynb_checkpoints
 checkpoints/*
-datasets/BCCD/Annotations/*  
-datasets/BCCD/JPEGImages/*
+datasets/BCCD/annotations/*  
+datasets/BCCD/images/*
 datasets/CarLicensePlates/annotations/*
 datasets/CarLicensePlates/images/*
 datasets/PotHoles/annotations/*
