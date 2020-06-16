@@ -3,7 +3,7 @@ from tqdm.cli import tqdm
 from os import system
 from math import ceil
 
-URL = "https://arcraftimages.s3-accelerate.amazonaws.com/Datasets/RoadSigns/RoadSignsPascalVOC.zip?region=us-east-2"
+URL = "https://arcraftimages.s3-accelerate.amazonaws.com/Datasets/Ships/ShipsPascalVOC.zip?region=us-east-22"
 CHUNK_SIZE = 1024
 
 def main():
