@@ -6,5 +6,10 @@ datasets/CarLicensePlates/annotations/*
 datasets/CarLicensePlates/images/*
 datasets/PotHoles/annotations/*
 datasets/PotHoles/images/*
+
+*images*
+*annotations*
+
+
 *__pycache__*
 *checkpoints*

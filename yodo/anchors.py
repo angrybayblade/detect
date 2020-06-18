@@ -111,6 +111,7 @@ AnchorGrid (
     image_size={self.image_size},
     grid_size={self.grid_size}
 )"""
+        self.ignored = []
         
     def __repr__(self,):
         return self.repr
@@ -136,11 +137,12 @@ AnchorGrid (
             x = (x - (Ox*self.resize_factor)) / self.resize_factor
             y = (y - (Oy*self.resize_factor)) / self.resize_factor
             h,w = self.box_gen.encode(h,w)
-                        
             Oi = _counter[f"{Oy}x{Ox}"]
             
-            assert Oi < self.k,f"More Boxes Then Assigned K, {self.repr}"
-            
+            if Oi >= self.k:
+                self.ignored.append(data)
+                continue
+
             box[Oy,Ox,Oi,:] = [y,x,h,w]
             prob[Oy,Ox,Oi,:] = [0,1]
             

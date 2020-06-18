@@ -137,8 +137,10 @@ BoxLoss(
         Xl2 = self.l2_loss(x,x_)
         Yl2 = self.l2_loss(y,y_)
         
-        return Xl2 + Yl2 + IoU
-
+        loss = Xl2 + Yl2 + IoU
+        if tf.math.is_nan(loss):
+            return self.zero
+        return loss
 
 class YODO(object):
     """
@@ -156,7 +158,7 @@ class YODO(object):
             "box":BoxLoss()
         }
         
-    def build(self,optimizer=None,callbacks=[]):
+    def build(self,optimizer=None):
         optimizer = optimizer if optimizer else keras.optimizers.SGD() 
         _in = Input((self.config.img_size,self.config.img_size,3))
         last = _in
@@ -176,15 +178,15 @@ class YODO(object):
         box = concatenate(box_out,axis=1,name="box")
         self.model = keras.Model(_in,[prob,box],name="YODO")
         self.model.compile(optimizer=optimizer,loss=self.loss)
-        self.callbacks = callbacks
+        
             
     def summary(self):
         self.model.summary()
             
-    def train(self,x,y,epochs,batch_size):
+    def train(self,x,y,epochs,batch_size,callbacks=[]):
         assert len(y) == 2,"Please pass probablity and encoded boxes as a tuple"
-        self.model.fit(x,y,batch_size=batch_size,epochs=epochs,callbacks=self.callbacks)
+        self.model.fit(x,y,batch_size=batch_size,epochs=epochs,callbacks=callbacks)
         
-    def train_generator(self,flow,steps_per_epoch,epochs):
-        self.model.fit_generator(flow,steps_per_epoch=steps_per_epoch,epochs=epochs,callbacks=self.callbacks)
+    def train_generator(self,flow,steps_per_epoch,epochs,callbacks=[]):
+        self.model.fit_generator(flow,steps_per_epoch=steps_per_epoch,epochs=epochs,callbacks=callbacks)
 
